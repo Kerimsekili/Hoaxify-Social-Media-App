@@ -10,6 +10,7 @@ public class UserService {
 
     UserRepository userRepository;
 
+    //Creating Password Encoder with Spring Boot Security
     PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository) {
