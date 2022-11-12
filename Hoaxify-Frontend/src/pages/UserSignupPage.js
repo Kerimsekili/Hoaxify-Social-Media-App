@@ -1,5 +1,6 @@
 import React from "react";
 import { singup } from "../api/apiCalls";
+import Input from "../components/input";
 
 class UserSignupPage extends React.Component {
   state = {
@@ -8,12 +9,16 @@ class UserSignupPage extends React.Component {
     password: null,
     passwordRepeat: null,
     pendingApiCall: false,
+    errors: {},
   };
 
   onChange = (event) => {
     const { name, value } = event.target;
+    const errors = { ...this.state.errors };
+    errors[name] = undefined;
     this.setState({
       [name]: value,
+      errors,
     });
   };
 
@@ -32,7 +37,11 @@ class UserSignupPage extends React.Component {
 
     try {
       const response = await singup(body);
-    } catch (error) {}
+    } catch (error) {
+      if (error.response.data.validationErrors) {
+        this.setState({ errors: error.response.data.validationErrors });
+      }
+    }
 
     this.setState({ pendingApiCall: false });
 
@@ -46,27 +55,24 @@ class UserSignupPage extends React.Component {
   };
 
   render() {
-    const { pendingApiCall } = this.state;
+    const { pendingApiCall, errors } = this.state;
+    const { username, nickname } = errors;
     return (
       <div className="container">
         <form>
           <h1 className="text-center">Sign Up</h1>
-          <div className="mb-3">
-            <label>Username</label>
-            <input
-              className="form-control"
-              name="username"
-              onChange={this.onChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label>Nickname</label>
-            <input
-              className="form-control"
-              name="nickname"
-              onChange={this.onChange}
-            />
-          </div>
+          <Input
+            name="username"
+            label="Username"
+            error={username}
+            onChange={this.onChange}
+          />
+          <Input
+            name="nickname"
+            label="Nickname"
+            error={nickname}
+            onChange={this.onChange}
+          />
           <div className="mb-3">
             <label>Password</label>
             <input
