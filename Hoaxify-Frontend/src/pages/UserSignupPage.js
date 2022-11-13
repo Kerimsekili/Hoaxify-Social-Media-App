@@ -16,6 +16,15 @@ class UserSignupPage extends React.Component {
     const { name, value } = event.target;
     const errors = { ...this.state.errors };
     errors[name] = undefined;
+    if (name === "password" || name === "passwordRepeat") {
+      if (name === "password" && value !== this.state.passwordRepeat) {
+        errors.passwordRepeat = "Password Mismatch";
+      } else if (name === "passwordRepeat" && value !== this.state.password) {
+        errors.passwordRepeat = "Password Mismatch";
+      } else {
+        errors.passwordRepeat = undefined;
+      }
+    }
     this.setState({
       [name]: value,
       errors,
@@ -56,7 +65,7 @@ class UserSignupPage extends React.Component {
 
   render() {
     const { pendingApiCall, errors } = this.state;
-    const { username, nickname, password } = errors;
+    const { username, nickname, password, passwordRepeat } = errors;
     return (
       <div className="container">
         <form>
@@ -80,20 +89,18 @@ class UserSignupPage extends React.Component {
             onChange={this.onChange}
             type={"password"}
           />
-          <div className="mb-3">
-            <label>Password Repeat</label>
-            <input
-              className="form-control"
-              name="passwordRepeat"
-              type={"password"}
-              onChange={this.onChange}
-            />
-          </div>
+          <Input
+            name="passwordRepeat"
+            label="Password Repeat"
+            error={passwordRepeat}
+            onChange={this.onChange}
+            type={"password"}
+          />
           <div className="text-center">
             <button
               className="btn btn-primary"
               onClick={this.onClickSignup}
-              disabled={pendingApiCall}
+              disabled={pendingApiCall || passwordRepeat !== undefined}
             >
               {pendingApiCall && (
                 <span className="spinner-border spinner-border-sm"></span>
