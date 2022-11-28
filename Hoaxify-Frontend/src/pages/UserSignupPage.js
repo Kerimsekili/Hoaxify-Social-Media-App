@@ -1,6 +1,6 @@
 import i18next from "i18next";
 import React from "react";
-import { singup, changeLanguage } from "../api/apiCalls";
+import { singup } from "../api/apiCalls";
 import Input from "../components/input";
 import { withTranslation } from "react-i18next";
 
@@ -66,12 +66,6 @@ class UserSignupPage extends React.Component {
     //   });
   };
 
-  onChangeLanguage = (language) => {
-    const { i18n } = this.props;
-    i18n.changeLanguage(language);
-    changeLanguage(language);
-  };
-
   render() {
     const { pendingApiCall, errors } = this.state;
     const { username, nickname, password, passwordRepeat } = errors;
@@ -117,32 +111,6 @@ class UserSignupPage extends React.Component {
               )}
               {t("Sign Up")}
             </button>
-          </div>
-          <div>
-            <img
-              src="https://flagcdn.com
-/
-w40
-/
-tr
-.
-webp"
-              alt="Turkish Flag"
-              onClick={() => this.onChangeLanguage("tr")}
-              style={{ cursor: "pointer" }}
-            />
-            <img
-              src="https://flagcdn.com
-/
-w40
-/
-us
-.
-webp"
-              alt="USA Flag"
-              onClick={() => this.onChangeLanguage("en")}
-              style={{ cursor: "pointer" }}
-            />
           </div>
         </form>
       </div>
