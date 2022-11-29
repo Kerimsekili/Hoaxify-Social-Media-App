@@ -10,11 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 import java.util.HashMap;
@@ -22,44 +21,18 @@ import java.util.Map;
 
 @RestController
 public class AuthController {
-
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
     @Autowired
     UserRepository userRepository;
 
     @PostMapping("/api/1.0/auth")
     @JsonView(Views.Base.class)
-    ResponseEntity<?> handleAuthentication(@RequestHeader(name = "Authorization", required = false) String authorization) {
+    ResponseEntity<?> handleAuthentication(@RequestHeader(name = "Authorization") String authorization) {
 
-        if (authorization == null) {
-            ApiError error = new ApiError(401, "Unauthorized request", "/api/1.0/auth");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-        }
         String base64encoded = authorization.split("Basic ")[1]; //dxNlcJD78CasdQsG
         String decoded = new String(Base64.getDecoder().decode(base64encoded)); //user1:P4ssword.
         String[] parts = decoded.split(":"); //["user1","P4ssword."]
         String username = parts[0];
-        String password = parts[1];
         User inDB = userRepository.findByUsername(username);
-        if (inDB == null) {
-
-            ApiError error = new ApiError(401, "Unauthorized request", "/api/1.0/auth");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-
-        }
-        String hashedPassword = inDB.getPassword();
-        if (!passwordEncoder.matches(password, hashedPassword)) {
-            ApiError error = new ApiError(401, "Unauthorized request", "/api/1.0/auth");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-        }
-
-        //username,nickname,image
-        Map<String ,String> responseBody = new HashMap<>();
-        responseBody.put("username",inDB.getUsername());
-        responseBody.put("nickname",inDB.getNickname());
-        responseBody.put("image",inDB.getImage());
-
         return ResponseEntity.ok(inDB);
 
     }
