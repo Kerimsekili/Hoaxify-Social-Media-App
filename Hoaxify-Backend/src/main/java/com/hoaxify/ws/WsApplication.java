@@ -22,9 +22,9 @@ public class WsApplication {
         return (args) -> {
 
             User user = new User();
-            user.setUsername("Kerim Sekili");
+            user.setUsername("user1");
             user.setNickname("KS_Software");
-            user.setPassword("P4ssword.");
+            user.setPassword("password");
             userService.save(user);
         };
     }

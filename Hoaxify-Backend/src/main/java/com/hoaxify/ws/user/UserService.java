@@ -10,13 +10,12 @@ public class UserService {
 
     UserRepository userRepository;
 
-    //Creating Password Encoder with Spring Boot Security
     PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,PasswordEncoder passwordEncoder) {
         super();
         this.userRepository = userRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder();
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void save(User user){

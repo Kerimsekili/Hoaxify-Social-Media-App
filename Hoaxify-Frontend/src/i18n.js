@@ -27,7 +27,7 @@ i18n.use(initReactI18next).init({
       },
     },
   },
-  fallbackLng: "tr",
+  fallbackLng: "en",
   ns: ["translations"],
   setDefaultNamespace: "translations",
   keySeparator: false,
