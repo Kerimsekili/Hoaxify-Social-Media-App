@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication
 public class WsApplication {
 
     public static void main(String[] args) {
@@ -24,7 +24,7 @@ public class WsApplication {
             User user = new User();
             user.setUsername("Kerim Sekili");
             user.setNickname("KS_Software");
-            user.setPassword("P4ssword");
+            user.setPassword("P4ssword.");
             userService.save(user);
         };
     }
