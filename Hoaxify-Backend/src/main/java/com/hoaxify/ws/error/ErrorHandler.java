@@ -1,10 +1,10 @@
 package com.hoaxify.ws.error;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.validation.AbstractErrors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,14 +15,15 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class ErrorHandler implements ErrorController {
 
     @Autowired
-    private ErrorAttributes errorAttributes;
+    private final ErrorAttributes errorAttributes;
 
 
     @RequestMapping("/error")
-    ApiError handleError(WebRequest webRequest) {
+    public ApiError handleError(WebRequest webRequest) {
 
         Map<String, Object> attributes = this.errorAttributes.getErrorAttributes(webRequest, ErrorAttributeOptions.of(ErrorAttributeOptions.Include.MESSAGE, ErrorAttributeOptions.Include.BINDING_ERRORS));
         String message = (String) attributes.get("message");

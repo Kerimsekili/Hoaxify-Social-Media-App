@@ -1,25 +1,25 @@
 package com.hoaxify.ws.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.hoaxify.ws.shared.Views;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class User {
-
-
-
     @Id
     @GeneratedValue()
-    private long id;
+    private Long id;
 
     @NotNull(message = "{hoaxify.constraint.username.NotNull.message}")
     @Size(min = 4,max = 255)

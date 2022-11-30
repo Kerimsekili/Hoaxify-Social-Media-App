@@ -9,8 +9,7 @@ import java.util.Collection;
 
 
 public class HoaxifyUserDetails implements UserDetails {
-
-    User user;
+    private final User user;
 
     public HoaxifyUserDetails(User user) {
         super();
