@@ -3,6 +3,7 @@ import React from "react";
 import { singup } from "../api/apiCalls";
 import Input from "../components/input";
 import { withTranslation } from "react-i18next";
+import ButtonWithProgress from "../components/ButtonWithProgress";
 
 class UserSignupPage extends React.Component {
   state = {
@@ -101,16 +102,12 @@ class UserSignupPage extends React.Component {
             type={"password"}
           />
           <div className="text-center">
-            <button
-              className="btn btn-primary"
+            <ButtonWithProgress
               onClick={this.onClickSignup}
               disabled={pendingApiCall || passwordRepeat !== undefined}
-            >
-              {pendingApiCall && (
-                <span className="spinner-border spinner-border-sm"></span>
-              )}
-              {t("Sign Up")}
-            </button>
+              pendingApiCall={pendingApiCall}
+              text={t("Sign Up")}
+            />
           </div>
         </form>
       </div>
