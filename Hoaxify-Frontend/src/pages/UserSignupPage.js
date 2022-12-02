@@ -11,7 +11,6 @@ class UserSignupPage extends React.Component {
     nickname: null,
     password: null,
     passwordRepeat: null,
-    pendingApiCall: false,
     errors: {},
   };
 
@@ -46,8 +45,6 @@ class UserSignupPage extends React.Component {
       password,
     };
 
-    this.setState({ pendingApiCall: true });
-
     try {
       const response = await singup(body);
     } catch (error) {
@@ -55,8 +52,6 @@ class UserSignupPage extends React.Component {
         this.setState({ errors: error.response.data.validationErrors });
       }
     }
-
-    this.setState({ pendingApiCall: false });
 
     // singup(body)
     //   .then((response) => {
@@ -68,9 +63,9 @@ class UserSignupPage extends React.Component {
   };
 
   render() {
-    const { pendingApiCall, errors } = this.state;
+    const { errors } = this.state;
     const { username, nickname, password, passwordRepeat } = errors;
-    const { t } = this.props;
+    const { t, pendingApiCall } = this.props;
     return (
       <div className="container">
         <form>
