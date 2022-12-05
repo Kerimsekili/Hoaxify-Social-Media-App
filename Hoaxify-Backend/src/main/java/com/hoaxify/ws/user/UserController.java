@@ -1,14 +1,14 @@
 package com.hoaxify.ws.user;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.hoaxify.ws.shared.GenericResponse;
+import com.hoaxify.ws.shared.Views;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -17,8 +17,14 @@ public class UserController {
 
     @PostMapping("/api/1.0/users")
     @ResponseStatus(HttpStatus.CREATED)//Old Fashion(Next Week Check)
-    public GenericResponse createUser(@Valid @RequestBody User user){
+    public GenericResponse createUser(@Valid @RequestBody User user) {
         userService.save(user);
         return new GenericResponse("User created!");
+    }
+
+    @GetMapping("/api/1.0/users")
+    @JsonView(Views.Base.class)
+    List<User> getUsers() {
+        return userService.getUsers();
     }
 }

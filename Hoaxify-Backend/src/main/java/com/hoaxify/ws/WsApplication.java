@@ -21,11 +21,14 @@ public class WsApplication {
     CommandLineRunner createInitialUsers(UserService userService) {
         return (args) -> {
 
-            User user = new User();
-            user.setUsername("user1");
-            user.setNickname("KS_Software");
-            user.setPassword("password");
-            userService.save(user);
+            for (int i =1;i<=10;i++){
+                User user = new User();
+                user.setUsername("user1");
+                user.setNickname("KS_Software");
+                user.setPassword("password");
+                userService.save(user);
+            }
+
         };
     }
 
