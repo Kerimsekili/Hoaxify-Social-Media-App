@@ -1,6 +1,7 @@
 package com.hoaxify.ws.user;
 
 import com.hoaxify.ws.shared.GenericResponse;
+import com.hoaxify.ws.user.vm.UserUpdateVM;
 import com.hoaxify.ws.user.vm.UserVM;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,12 @@ public class UserController {
     @GetMapping("/users/{username}")
     UserVM getUser(@PathVariable String username){
         User user = userService.getByUsername(username);
+        return new UserVM(user);
+    }
+
+    @PutMapping("users/{username}")
+    UserVM updateUser(@RequestBody UserUpdateVM updatedUser ,@PathVariable String username){
+        User user = userService.updateUser(username,updatedUser);
         return new UserVM(user);
     }
 
